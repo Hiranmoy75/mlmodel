@@ -27,32 +27,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # Google Drive file IDs
-files = {
-    "price-model.joblib": "1pSLEqZ2aqnPCVGgEwf8It85WxJzUAzM4"
-}
 
-# Download if not exists
-for filename, file_id in files.items():
-    if not os.path.exists(filename):
-        url = f"https://drive.google.com/uc?id={file_id}"
-        print(f"Downloading {filename}...")
-        gdown.download(url, filename, quiet=False)
+# Google Drive model URL
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1pSLEqZ2aqnPCVGgEwf8It85WxJzUAzM4"
 
+def load_model_from_drive(url):
+    """Download the model from Google Drive into memory (not disk)."""
+    print("Downloading model from Google Drive...")
+    response = requests.get(url)
+    response.raise_for_status()
+    model = joblib.load(io.BytesIO(response.content))
+    print("✅ Model loaded into memory")
+    return model
 
-# Load model artifacts
+# Load model at startup
+price_pipe = None
 try:
-    price_pipe = joblib.load("price-model.joblib")
-    # with open("preprocessor.pkl", "rb") as f:
-    #     preprocessor = pickle.load(f)
-    # with open("processed_df.pkl", "rb") as f:
-    #     df = pickle.load(f)
-    # with open("feature_matrix.pkl", "rb") as f:
-    #     feature_matrix = pickle.load(f)
-except FileNotFoundError as e:
-    print(f"Error loading model files: {e}")
-    print("Please run `python train_and_predict.py` first.")
-    preprocessor, df, feature_matrix = None, None, None
-
+    price_pipe = load_model_from_drive(MODEL_URL)
+except Exception as e:
+    print(f"❌ Failed to load model: {e}")
 
 class PredictRequest(BaseModel):
     total_area: float
