@@ -28,10 +28,7 @@ app.add_middleware(
 )
 # Google Drive file IDs
 files = {
-    "price-model.joblib": "1pSLEqZ2aqnPCVGgEwf8It85WxJzUAzM4",
-    "preprocessor.pkl": "1zFpvtuSJEvqoj-PSQB9Y9Xq4xEeS7cRV",
-    "processed_df.pkl": "17N4gpO7eoFU0f1TyAIPbN9OJfnoobgI2",
-    "feature_matrix.pkl": "14qvItow972i41a9QhRiqXAc0ObwtDRQ-"
+    "price-model.joblib": "1pSLEqZ2aqnPCVGgEwf8It85WxJzUAzM4"
 }
 
 # Download if not exists
