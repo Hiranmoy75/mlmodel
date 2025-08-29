@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import uvicorn
 import os
+import io 
 import requests
 import joblib
 import json
