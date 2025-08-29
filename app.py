@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import uvicorn
 import os
-import gdown
+import requests
 import joblib
 import json
 # FastAPI app
